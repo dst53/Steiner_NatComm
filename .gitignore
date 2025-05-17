@@ -1,0 +1,17 @@
+# ignore data and figures folders
+/data/
+/figures/
+/GSE81089
+/cytospace_results
+/cytospace
+/GDCdata
+
+# ignore all cytospace files
+cytospace*
+
+# ignore Studio cache or temp files
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.txt
