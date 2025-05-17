@@ -15,3 +15,6 @@ cytospace*
 .RData
 .Ruserdata
 *.txt
+
+# ignore libs
+/renv/library/
