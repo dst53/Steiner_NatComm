@@ -69,12 +69,20 @@ library(here)
 library(tidycmprsk)
 library(ggsurvfit)
 library(ConsensusClusterPlus)
+library(systemfonts)
+
 
 source(here("utils.R"))
 
 # define source data file for figures and tables
 
 source_data <- createWorkbook()
+
+all_fams <- system_fonts()$family
+
+# if Calibri is present we’ll use it, otherwise Helvetica
+
+my_font <- if ("Calibri" %in% system_fonts()$family) "Calibri" else "Helvetica"
 
 
 ##############
@@ -137,14 +145,14 @@ diff.1 <- survdiff(surv_object ~ LMPVI, data = efig1A)
 pval <- grobTree(textGrob('Log-rank  p =',
                           x=0.2,  y=0.15, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = 'Helvetica')),
                  textGrob(eval(bquote(scientific_10(round(diff.1$pvalue,11)))),
                           x=0.5, y=0.16,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = 'Helvetica')))
 
 efig1A_gg <- ggsurvplot(fit1, data = efig1A, pval = F, censored=T, 
-                        ggtheme = theme_classic(base_family = 'Calibri',
+                        ggtheme = theme_classic(base_family = 'Helvetica',
                                                 base_size = 20),
                         legend = "none", title = "Novel grade\n",
                         legend.title = "",
@@ -152,14 +160,14 @@ efig1A_gg <- ggsurvplot(fit1, data = efig1A, pval = F, censored=T,
                         xlab = "\nMonths",
                         ylab = "RFS (%)\n",
                         risk.table = TRUE,
-                        tables.theme = theme_cleantable(base_family = 'Calibri',
+                        tables.theme = theme_cleantable(base_family = 'Helvetica',
                                                         base_size = 20,
                                                         plot.title = element_text(size = 2)),
                         pval.coord = c(20,0.1),
                         pval.size = 6,
                         pval.method = TRUE,
                         pval.method.coord = c(0.5,0.1),
-                        font.family = 'Calibri',
+                        font.family = 'Helvetica',
                         fontsize = 6,
                         palette = c("#1f78b4","#33a02c","#FF0054"))
 
@@ -236,7 +244,7 @@ fit1 <- survfit(surv_object ~ WHO, data = efig1B, conf.type = "log-log")
 diff.1 <- survdiff(surv_object ~ WHO, data = efig1B)
 
 efig1B_gg <- ggsurvplot(fit1, data = efig1B, pval = T, censored=T, 
-                        ggtheme = theme_classic(base_family = 'Calibri',
+                        ggtheme = theme_classic(base_family = my_font,
                                                 base_size = 20),
                         legend = "none", title = "WHO 2021 grade\n",
                         legend.title = "",
@@ -244,14 +252,14 @@ efig1B_gg <- ggsurvplot(fit1, data = efig1B, pval = T, censored=T,
                         xlab = "\nMonths",
                         ylab = "RFS (%)\n",
                         risk.table = TRUE,
-                        tables.theme = theme_cleantable(base_family = 'Calibri',
+                        tables.theme = theme_cleantable(base_family = my_font,
                                                         base_size = 20,
                                                         plot.title = element_text(size = 2)),
                         pval.coord = c(20,0.1),
                         pval.size = 6,
                         pval.method = TRUE,
                         pval.method.coord = c(0.5,0.1),
-                        font.family = 'Calibri',
+                        font.family = my_font,
                         fontsize = 6,
                         palette = c("grey","#1f78b4","#33a02c","#FF0054"))
 
@@ -309,14 +317,14 @@ diff.1 <- survdiff(surv_object ~ VI, data = efig1C)
 pval <- grobTree(textGrob('Log-rank  p =',
                           x=0.2,  y=0.15, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(round(diff.1$pvalue,11)))),
                           x=0.5, y=0.16,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 efig1C_gg <- ggsurvplot(fit1, data = efig1C, pval = F, censored=T, 
-                        ggtheme = theme_classic(base_family = 'Calibri',
+                        ggtheme = theme_classic(base_family = my_font,
                                                 base_size = 20),
                         legend = "none", title = "Vascular invasion\n",
                         legend.title = "",
@@ -324,14 +332,14 @@ efig1C_gg <- ggsurvplot(fit1, data = efig1C, pval = F, censored=T,
                         xlab = "\nMonths",
                         ylab = "RFS (%)\n",
                         risk.table = TRUE,
-                        tables.theme = theme_cleantable(base_family = 'Calibri',
+                        tables.theme = theme_cleantable(base_family = my_font,
                                                         base_size = 20,
                                                         plot.title = element_text(size = 2)),
                         pval.coord = c(20,0.1),
                         pval.size = 6,
                         pval.method = TRUE,
                         pval.method.coord = c(0.5,0.1),
-                        font.family = 'Calibri',
+                        font.family = my_font,
                         fontsize = 6,
                         palette = c("#999999","#FF0054"))
 
@@ -398,7 +406,7 @@ fit1 <- survfit(surv_object ~ STAS, data = efig1D, conf.type = "log-log")
 diff.1 <- survdiff(surv_object ~ STAS, data = efig1D)
 
 efig1D_gg <- ggsurvplot(fit1, data = efig1D, pval = T, censored=T, 
-                        ggtheme = theme_classic(base_family = 'Calibri',
+                        ggtheme = theme_classic(base_family = my_font,
                                                 base_size = 20),
                         legend = "none", title = "Spread through air spaces\n",
                         legend.title = "",
@@ -406,14 +414,14 @@ efig1D_gg <- ggsurvplot(fit1, data = efig1D, pval = T, censored=T,
                         xlab = "\nMonths",
                         ylab = "RFS (%)\n",
                         risk.table = TRUE,
-                        tables.theme = theme_cleantable(base_family = 'Calibri',
+                        tables.theme = theme_cleantable(base_family = my_font,
                                                         base_size = 20,
                                                         plot.title = element_text(size = 2)),
                         pval.coord = c(20,0.1),
                         pval.size = 6,
                         pval.method = TRUE,
                         pval.method.coord = c(0.5,0.1),
-                        font.family = 'Calibri',
+                        font.family = my_font,
                         fontsize = 6,
                         palette = c("#999999","#CB8CAD"))
 
@@ -468,7 +476,7 @@ fit1 <- survfit(surv_object ~ VPI, data = efig1E, conf.type = "log-log")
 diff.1 <- survdiff(surv_object ~ VPI, data = efig1E)
 
 efig1E_gg <- ggsurvplot(fit1, data = efig1E, pval = T, censored=T, 
-                        ggtheme = theme_classic(base_family = 'Calibri',
+                        ggtheme = theme_classic(base_family = my_font,
                                                 base_size = 20),
                         legend = "none", title = "Visceral pleural invasion\n",
                         legend.title = "",
@@ -476,14 +484,14 @@ efig1E_gg <- ggsurvplot(fit1, data = efig1E, pval = T, censored=T,
                         xlab = "\nMonths",
                         ylab = "RFS (%)\n",
                         risk.table = TRUE,
-                        tables.theme = theme_cleantable(base_family = 'Calibri',
+                        tables.theme = theme_cleantable(base_family = my_font,
                                                         base_size = 20,
                                                         plot.title = element_text(size = 2)),
                         pval.coord = c(20,0.1),
                         pval.size = 6,
                         pval.method = TRUE,
                         pval.method.coord = c(0.5,0.1),
-                        font.family = 'Calibri',
+                        font.family = my_font,
                         fontsize = 6,
                         palette = c("#999999","#874F6F"))
 
@@ -538,7 +546,7 @@ fit1 <- survfit(surv_object ~ LI, data = efig1F, conf.type = "log-log")
 diff.1 <- survdiff(surv_object ~ LI, data = efig1F)
 
 efig1F_gg <- ggsurvplot(fit1, data = efig1F, pval = T, censored=T, 
-                        ggtheme = theme_classic(base_family = 'Calibri',
+                        ggtheme = theme_classic(base_family = my_font,
                                                 base_size = 20),
                         legend = "none", title = "Lymphatic invasion\n",
                         legend.title = "",
@@ -546,14 +554,14 @@ efig1F_gg <- ggsurvplot(fit1, data = efig1F, pval = T, censored=T,
                         xlab = "\nMonths",
                         ylab = "RFS (%)\n",
                         risk.table = TRUE,
-                        tables.theme = theme_cleantable(base_family = 'Calibri',
+                        tables.theme = theme_cleantable(base_family = my_font,
                                                         base_size = 20,
                                                         plot.title = element_text(size = 2)),
                         pval.coord = c(20,0.1),
                         pval.size = 6,
                         pval.method = TRUE,
                         pval.method.coord = c(0.5,0.1),
-                        font.family = 'Calibri',
+                        font.family = my_font,
                         fontsize = 6,
                         palette = c("#999999","#1A5276"))
 
@@ -611,14 +619,14 @@ diff.1 <- survdiff(surv_object ~ LVI, data = efig1G)
 pval <- grobTree(textGrob('Log-rank  p =',
                           x=0.2,  y=0.15, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(round(diff.1$pvalue,11)))),
                           x=0.5, y=0.16,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 efig1G_gg <- ggsurvplot(fit1, data = efig1G, pval = F, censored=T, 
-                        ggtheme = theme_classic(base_family = 'Calibri',
+                        ggtheme = theme_classic(base_family = my_font,
                                                 base_size = 20),
                         legend = "none", title = "Lymphovascular invasion\n",
                         legend.title = "",
@@ -626,14 +634,14 @@ efig1G_gg <- ggsurvplot(fit1, data = efig1G, pval = F, censored=T,
                         xlab = "\nMonths",
                         ylab = "RFS (%)\n",
                         risk.table = TRUE,
-                        tables.theme = theme_cleantable(base_family = 'Calibri',
+                        tables.theme = theme_cleantable(base_family = my_font,
                                                         base_size = 20,
                                                         plot.title = element_text(size = 2)),
                         pval.coord = c(20,0.1),
                         pval.size = 6,
                         pval.method = TRUE,
                         pval.method.coord = c(0.5,0.1),
-                        font.family = 'Calibri',
+                        font.family = my_font,
                         fontsize = 6,
                         palette = c("#999999","#8c2965"))
 
@@ -717,7 +725,7 @@ writeData(source_data, sheet = 'E. Figure 1H',
 
 efig1H_gg <- upset(
   efig1H, c('VI','STAS','VPI','LI','No Invasion'), name = NULL, width_ratio=0.1,
-  themes=ComplexUpset::upset_default_themes(text=element_text(family='Calibri',
+  themes=ComplexUpset::upset_default_themes(text=element_text(family=my_font,
                                                               size = 30)),
   sort_sets = FALSE,
   base_annotations = list(
@@ -889,15 +897,15 @@ efig1I_gg <- ggplot(efig1I, aes(x=Predictor, y=HR)) + coord_flip() +
         axis.text.y=element_text(size=15),
         axis.title.x = element_text(size=20),
         axis.title.y = element_text(size=20),
-        text = element_text(family = 'Calibri')) + 
+        text = element_text(family = my_font)) + 
   scale_y_continuous(trans = "log", expand = c(0,0), breaks = c(0.05,2,8,32), 
                      limits = c(0.05, 1200)) + 
   scale_x_discrete(limits=c(rev(as.character(efig1I$Predictor)),' ')) + 
   xlab("Predictor\n") + ylab("\nHazard Ratio (95% CI)") + 
   geom_text(aes(x=Predictor, y=hr_max + 300, label=P), 
-            size=5, family = 'Calibri', parse = TRUE) + 
+            size=5, family = my_font, parse = TRUE) + 
   annotate("text", x = 21, y = 330, label = "p value", 
-           size = 5, fontface = 'bold', family = 'Calibri')
+           size = 5, fontface = 'bold', family = my_font)
 
 efig1I_gg
 
@@ -1031,7 +1039,7 @@ efig1J_gg <- ggplot(data = efig1J, aes(x = invasion, y = pattern)) +
   theme_classic() +
   theme(
     legend.position = 'right',
-    text = element_text(family = 'Calibri'),
+    text = element_text(family = my_font),
     panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
     plot.title = element_text(size=22, hjust = 0.5),
     axis.text=element_text(size=18),
@@ -1132,14 +1140,14 @@ efig1K_gg <- ggplot(efig1K_tbl, aes(fill=`Site of recurrence`, x=`VI status`, y 
         legend.title = element_text(size=22),
         legend.key.size = unit(0.6, "cm"),
         legend.text = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   labs(x = '\nVI Status',
        y = 'Proportion\n') +
   ylim(0,1) + 
   guides(fill = guide_legend(nrow = 2, byrow = TRUE, title.position = 'top')) +
   geom_text(aes(label = count, group = `Site of recurrence`),
             position = position_stack(vjust = 0.5), 
-            color = "white", size = 8, family = 'Calibri')
+            color = "white", size = 8, family = my_font)
 
 efig1K_gg
 
@@ -1289,7 +1297,7 @@ efig1L_gg <- modelplot(efig1L, coef_omit = 'Interc', exponentiate = TRUE,
         legend.text = element_text(size=20),
         legend.position = 'bottom',
         legend.box = "horizontal",
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   guides(color = guide_legend(nrow = 2, byrow = TRUE, title.position = 'top'),
          shape = guide_legend(nrow = 2, byrow = TRUE, title.position = 'top')) +
   geom_vline(xintercept = 1, color = 'grey', linetype = 'dashed') +
@@ -1385,7 +1393,7 @@ efig1M_gg <- ci_obj %>%
   labs(title = NULL,
        x = "\nTime (Months)",
        y = "Cumulative Incidence\n") +
-  theme_classic(base_family = "Calibri", base_size = 20) +
+  theme_classic(base_family = my_font, base_size = 20) +
   theme(plot.title    = element_text(size = 22, hjust = 0.5),
         axis.title.x  = element_text(size = 20),
         axis.title.y  = element_text(size = 20),
@@ -1437,7 +1445,7 @@ ggsave(here('figures','efig1M.tiff'),
 ###################
 
 # read processed count matrix from GEO
-# first download GSE273377_exp_count.txt.gz	file from subseries GSE273378 within superseries GSE273528
+# first download GSE273377_exp_count.txt.gz	file from subseries GSE273377 within superseries GSE273528
 # unzip and place in Steiner_NatComm/data
 
 all_stageI_LUAD_se <- read.table(here('data','GSE273377_exp_count.txt'),
@@ -1855,7 +1863,7 @@ fig1B_gg <- pheatmap::pheatmap(fig1B,
                                angle_col = 0,
                                treeheight_col = 0,
                                fontsize = 16,
-                               fontfamily = 'Calibri',
+                               fontfamily = my_font,
                                clustering_method = "ward.D2", main = "")
 
 dev.off()
@@ -1971,14 +1979,14 @@ pval <- grobTree(textGrob(paste0('Cluster 1 Z-score\n ',
                                  '(AUROC = ', auc, ')',sep=''),
                           x=0.75,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob("p = ", 
                           x = 0.65, y = 0.15, 
-                          gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+                          gp = gpar(fontsize = 17, fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(p_val))),
                           x=0.8, y=0.15,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 efig2B_gg <- pROC::ggroc(rocobj, colour = '#cab2d6', size = 1, alpha = 1) +
   theme_classic() +
@@ -1991,7 +1999,7 @@ efig2B_gg <- pROC::ggroc(rocobj, colour = '#cab2d6', size = 1, alpha = 1) +
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
         legend.title = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, 
@@ -2047,14 +2055,14 @@ pval <- grobTree(textGrob(paste0('Cluster 2 Z-score\n ',
                                  '(AUROC = ', auc, ')',sep=''),
                           x=0.75,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob("p = ", 
                           x = 0.65, y = 0.15, 
-                          gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+                          gp = gpar(fontsize = 17, fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(p_val))),
                           x=0.8, y=0.15,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 efig2B_2_gg <- pROC::ggroc(rocobj, colour = '#b2df8a', size = 1, alpha = 1) +
   theme_classic() +
@@ -2067,7 +2075,7 @@ efig2B_2_gg <- pROC::ggroc(rocobj, colour = '#b2df8a', size = 1, alpha = 1) +
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
         legend.title = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, 
@@ -2123,14 +2131,14 @@ pval <- grobTree(textGrob(paste0('Cluster 3 Z-score\n ',
                                  '(AUROC = ', auc, ')',sep=''),
                           x=0.75,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob("p = ", 
                           x = 0.65, y = 0.15, 
-                          gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+                          gp = gpar(fontsize = 17, fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(p_val))),
                           x=0.8, y=0.15,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 efig2B_3_gg <- pROC::ggroc(rocobj, colour = '#E31A1C', size = 1, alpha = 1) +
   theme_classic() +
@@ -2143,7 +2151,7 @@ efig2B_3_gg <- pROC::ggroc(rocobj, colour = '#E31A1C', size = 1, alpha = 1) +
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
         legend.title = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, 
@@ -2199,14 +2207,14 @@ pval <- grobTree(textGrob(paste0('Cluster 4 Z-score\n ',
                                  '(AUROC = ', auc, ')',sep=''),
                           x=0.75,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob("p = ", 
                           x = 0.65, y = 0.15, 
-                          gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+                          gp = gpar(fontsize = 17, fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(p_val))),
                           x=0.8, y=0.15,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 
 efig2B_4_gg <- pROC::ggroc(rocobj, colour = '#A6CEE3', size = 1, alpha = 1) +
@@ -2220,7 +2228,7 @@ efig2B_4_gg <- pROC::ggroc(rocobj, colour = '#A6CEE3', size = 1, alpha = 1) +
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
         legend.title = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, 
@@ -2299,7 +2307,7 @@ pval <- grobTree(textGrob(paste('Cluster 1 Z-score\n ',
                                 '(AUROC = ', auc, ')','\np = ',p_val,sep=''),
                           x=0.75,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 efig2C_1_gg <- pROC::ggroc(rocobj, colour = '#cab2d6', size = 1, alpha = 1) +
   theme_classic() +
@@ -2312,7 +2320,7 @@ efig2C_1_gg <- pROC::ggroc(rocobj, colour = '#cab2d6', size = 1, alpha = 1) +
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
         legend.title = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, 
@@ -2366,7 +2374,7 @@ pval <- grobTree(textGrob(paste('Cluster 2 Z-score\n ',
                                 '(AUROC = ', auc, ')','\np = ',p_val,sep=''),
                           x=0.75,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 efig2C_2_gg <- pROC::ggroc(rocobj, colour = '#b2df8a', size = 1, alpha = 1) +
   theme_classic() +
@@ -2379,7 +2387,7 @@ efig2C_2_gg <- pROC::ggroc(rocobj, colour = '#b2df8a', size = 1, alpha = 1) +
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
         legend.title = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, 
@@ -2432,14 +2440,14 @@ pval <- grobTree(textGrob(paste0('Cluster 3 Z-score\n ',
                                  '(AUROC = ', auc, ')',sep=''),
                           x=0.75,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob("p = ", 
                           x = 0.65, y = 0.15, 
-                          gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+                          gp = gpar(fontsize = 17, fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(p_val))),
                           x=0.8, y=0.15,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 efig2C_3_gg <- pROC::ggroc(rocobj, colour = '#E31A1C', size = 1, alpha = 1) +
   theme_classic() +
@@ -2452,7 +2460,7 @@ efig2C_3_gg <- pROC::ggroc(rocobj, colour = '#E31A1C', size = 1, alpha = 1) +
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
         legend.title = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, 
@@ -2506,7 +2514,7 @@ pval <- grobTree(textGrob(paste('Cluster 4 Z-score\n ',
                                 '(AUROC = ', auc, ')','\np = ',p_val,sep=''),
                           x=0.75,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 efig2C_4_gg <- pROC::ggroc(rocobj, colour = '#A6CEE3', size = 1, alpha = 1) +
   theme_classic() +
@@ -2519,7 +2527,7 @@ efig2C_4_gg <- pROC::ggroc(rocobj, colour = '#A6CEE3', size = 1, alpha = 1) +
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
         legend.title = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, 
@@ -2627,7 +2635,7 @@ fig1C_1_gg <- ggplot(fig1C_1, aes(x=reorder(Term,Adjusted.P.value),
   geom_hline(yintercept = 1.3,linetype = "dotted",linewidth=1.5) +
   theme_minimal() +
   geom_text(aes(0,1.5,label = "FDR 0.05", vjust = -0.5, hjust= -0.02),
-            family = "Calibri", size = 6) +
+            family = my_font, size = 6) +
   labs(title=NULL, x = NULL, y = "\n-log₁₀(FDR)") +
   theme(plot.title = element_text(size=28, hjust = -1, vjust = 2),
         axis.title.x = element_text(size=24),
@@ -2643,7 +2651,7 @@ fig1C_1_gg <- ggplot(fig1C_1, aes(x=reorder(Term,Adjusted.P.value),
         axis.text=element_text(size=12),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   scale_y_continuous(breaks =  seq(0,56, 10),labels =  seq(0,56, 10), 
                      limits = c(-2.5,56)) +
   coord_flip() +
@@ -2655,7 +2663,7 @@ fig1C_1_gg <- ggplot(fig1C_1, aes(x=reorder(Term,Adjusted.P.value),
     y = -2.5,
     label = rev(fig1C_1[order(-fig1C_1$Adjusted.P.value),]$column_label),
     fontface = 'plain',
-    family = 'Calibri',
+    family = my_font,
     size = 7.5) 
 
 fig1C_1_gg
@@ -2733,7 +2741,7 @@ fig1C_2_gg <- ggplot(fig1C_2, aes(x=reorder(Term,Adjusted.P.value),
   geom_hline(yintercept = 1.3,linetype = "dotted",linewidth=1.5) +
   theme_minimal() +
   geom_text(aes(0,1.5,label = "FDR 0.05", vjust = -0.5, hjust= -0.02),
-            family = "Calibri", size = 6) +
+            family = my_font, size = 6) +
   labs(title=NULL, x = NULL, y = "\n-log₁₀(FDR)") +
   theme(plot.title = element_text(size=28, hjust = -1, vjust = 2),
         axis.title.x = element_text(size=24),
@@ -2749,7 +2757,7 @@ fig1C_2_gg <- ggplot(fig1C_2, aes(x=reorder(Term,Adjusted.P.value),
         axis.text=element_text(size=12),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   scale_y_continuous(breaks =  seq(0,32, 5),labels =  seq(0,32, 5), 
                      limits = c(-1.5,32)) +
   coord_flip() +
@@ -2761,7 +2769,7 @@ fig1C_2_gg <- ggplot(fig1C_2, aes(x=reorder(Term,Adjusted.P.value),
     y = -1.5,
     label = rev(fig1C_2[order(-fig1C_2$Adjusted.P.value),]$column_label),
     fontface = 'plain',
-    family = 'Calibri',
+    family = my_font,
     size = 7.5) 
 
 fig1C_2_gg
@@ -2836,7 +2844,7 @@ fig1C_3_gg <- ggplot(fig1C_3, aes(x=reorder(Term,Adjusted.P.value),
   geom_hline(yintercept = 1.3,linetype = "dotted",linewidth=1.5) +
   theme_minimal() +
   geom_text(aes(0,1.5,label = "FDR 0.05", vjust = -0.5, hjust= -0.02),
-            family = "Calibri", size = 6) +
+            family = my_font, size = 6) +
   labs(title=NULL, x = NULL, y = "\n-log₁₀(FDR)") +
   theme(plot.title = element_text(size=28, hjust = -1, vjust = 2),
         axis.title.x = element_text(size=24),
@@ -2851,7 +2859,7 @@ fig1C_3_gg <- ggplot(fig1C_3, aes(x=reorder(Term,Adjusted.P.value),
         axis.text=element_text(size=12),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   scale_y_continuous(breaks =  seq(0,10, 2),labels =  seq(0,10, 2), 
                      limits = c(-0.5,10)) +
   coord_flip() +
@@ -2863,7 +2871,7 @@ fig1C_3_gg <- ggplot(fig1C_3, aes(x=reorder(Term,Adjusted.P.value),
     y = -0.5,
     label = rev(fig1C_3[order(-fig1C_3$Adjusted.P.value),]$column_label),
     fontface = 'plain',
-    family = 'Calibri',
+    family = my_font,
     size = 7.5) 
 
 fig1C_3_gg
@@ -2954,7 +2962,7 @@ fig1C_4_gg <- ggplot(fig1C_4, aes(x=reorder(Term,Adjusted.P.value),
   geom_hline(yintercept = 1.3,linetype = "dotted",linewidth=1.5) +
   theme_minimal() +
   geom_text(aes(0,1.5,label = "FDR 0.05", vjust = -0.5, hjust= -0.02),
-            family = "Calibri", size = 6) +
+            family = my_font, size = 6) +
   labs(title=NULL, x = NULL, y = "\n-log₁₀(FDR)") +
   theme(plot.title = element_text(size=28, hjust = -1, vjust = 2),
         axis.title.x = element_text(size=24),
@@ -2970,7 +2978,7 @@ fig1C_4_gg <- ggplot(fig1C_4, aes(x=reorder(Term,Adjusted.P.value),
         axis.text=element_text(size=12),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   scale_y_continuous(breaks =  seq(0,2, 0.5),labels =  seq(0,2, 0.5), 
                      limits = c(-0.1,2)) +
   coord_flip() +
@@ -2982,7 +2990,7 @@ fig1C_4_gg <- ggplot(fig1C_4, aes(x=reorder(Term,Adjusted.P.value),
     y = -0.1,
     label = rev(fig1C_4[order(-fig1C_4$Adjusted.P.value),]$column_label),
     fontface = 'plain',
-    family = 'Calibri',
+    family = my_font,
     size = 7.5) 
 
 fig1C_4_gg
@@ -3069,7 +3077,7 @@ efig3A_gg <- pheatmap::pheatmap(efig3A,
                                 angle_col = 0,
                                 treeheight_col = 0,
                                 fontsize = 16,
-                                fontfamily = 'Calibri',
+                                fontfamily = my_font,
                                 clustering_method = "ward.D2", main = "")
 
 
@@ -3166,7 +3174,7 @@ efig3B_gg <- pheatmap::pheatmap(edgeR::cpm(discovery_dge_withLI,log=T)[LI_genes,
                                 angle_col = 0,
                                 treeheight_col = 0,
                                 fontsize = 16,
-                                fontfamily = 'Calibri',
+                                fontfamily = my_font,
                                 clustering_method = "ward.D2", main = "")
 
 
@@ -3323,12 +3331,12 @@ custom_gsea_plot <- function(gsea_cluster, pval_rnd) {
   
   pval <- grobTree(textGrob("p =", 
                             x = 0.53, y = 0.95, hjust=0,
-                            gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+                            gp = gpar(fontsize = 17, fontfamily = my_font)),
                    textGrob(eval(bquote(scientific_10(round(subset(gsea_pvals, 
                                                                    Cluster == gsea_cluster)$p_value,pval_rnd)))),
                             x=0.6, y=0.95, hjust=0,
                             gp=gpar(fontsize=17, 
-                                    fontfamily = 'Calibri')))
+                                    fontfamily = my_font)))
   
   
   p <- ggplot(LI_ranked_df, aes(x=Rank, y=0.25, group=1)) + 
@@ -3356,7 +3364,7 @@ custom_gsea_plot <- function(gsea_cluster, pval_rnd) {
           legend.title = element_text(size=20),
           legend.key.size = unit(0.6, "cm"),
           legend.text = element_text(size=20),
-          text = element_text(family = 'Calibri')) +
+          text = element_text(family = my_font)) +
     scale_x_continuous(breaks = c(4000,8000,12000), 
                        labels = c(4000,8000,12000)) +
     scale_y_continuous(breaks = c(min(LI_ranked_df$rank_scaled)-1,
@@ -3585,13 +3593,13 @@ custom_gsea_plot <- function(gsea_cluster, pval_rnd, plot_title = "plot title\n\
   
   pval <- grobTree(
     textGrob("p =", x = 0.53, y = 0.95, hjust = 0,
-             gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+             gp = gpar(fontsize = 17, fontfamily = my_font)),
     textGrob(
       eval(bquote(scientific_10(
         round(subset(gsea_pvals, Cluster == gsea_cluster)$p_value, pval_rnd)
       ))),
       x = 0.6, y = 0.95, hjust = 0,
-      gp = gpar(fontsize = 17, fontfamily = 'Calibri')
+      gp = gpar(fontsize = 17, fontfamily = my_font)
     )
   )
   
@@ -3621,7 +3629,7 @@ custom_gsea_plot <- function(gsea_cluster, pval_rnd, plot_title = "plot title\n\
       legend.title     = element_text(size = 20),
       legend.key.size  = unit(0.6, "cm"),
       legend.text      = element_text(size = 20),
-      text             = element_text(family = 'Calibri')
+      text             = element_text(family = my_font)
     ) +
     scale_x_continuous(
       breaks = c(4000, 8000, 12000),
@@ -4051,7 +4059,7 @@ efig7A_gg <- ggplot(efig7A, aes(fill = Dataset,y=Mean, x=Model)) +
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
         legend.position="none", 
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   ylim(0,1)
 
 efig7A_gg
@@ -4147,7 +4155,7 @@ efig7B_gg <- ggplot(efig7B, aes(x = factor(target_size), y = Mean, fill = Datase
           axis.text.x = element_text(size = 20),
           axis.text.y = element_text(size = 20),
           legend.position = "none",
-          text = element_text(family = "Calibri")) +
+          text = element_text(family = my_font)) +
     ylim(0, 1)
 
 efig7B_gg
@@ -4305,14 +4313,14 @@ pval <- grobTree(textGrob(paste0('VI predictor ',
                                  '(AUROC = ', auc, ')',sep=''),
                           x=0.7,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob("p = ", 
                           x = 0.65, y = 0.15, 
-                          gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+                          gp = gpar(fontsize = 17, fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(p_val))),
                           x=0.8, y=0.15,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 fig4B_gg <- pROC::ggroc(rocobj, colour = '#FF0054', size = 1, alpha = 1) +
   theme_classic() +
@@ -4324,7 +4332,7 @@ fig4B_gg <- pROC::ggroc(rocobj, colour = '#FF0054', size = 1, alpha = 1) +
         axis.title.y = element_text(size=20),
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, aes(x = x, ymin = lower, ymax = upper), 
@@ -4393,7 +4401,7 @@ fig4C_gg <- ggplot(fig4C, aes(x = reorder(variable,scaled_importance),
         legend.title = element_text(size=20),
         legend.key.size = unit(0.6, "cm"),
         legend.text = element_text(size=20),
-        text = element_text(family = 'Calibri'))
+        text = element_text(family = my_font))
 
 fig4C_gg
 
@@ -4548,16 +4556,16 @@ efig7C_gg <- ggplot(efig7C, aes(x=Predictor, y=HR)) + coord_flip() +
         axis.text.y=element_text(size=15),
         axis.title.x = element_text(size=20),
         axis.title.y = element_text(size=20),
-        text = element_text(family = 'Calibri')) + 
+        text = element_text(family = my_font)) + 
   scale_y_continuous(trans = "log", expand = c(0,0), breaks = c(0.02,2,8,32), 
                      limits = c(0.02, 1200)) + 
   scale_x_discrete(limits=c(rev(as.character(efig7C$Predictor)),' ')) + 
   xlab("Predictor\n") + ylab("\nHazard Ratio (95% CI)") + 
   geom_text(aes(x=Predictor, y=hr_max + 300, label=P), 
-            size=5, family = 'Calibri', parse = TRUE) + 
+            size=5, family = my_font, parse = TRUE) + 
   ggtitle("Discovery cohort (n=99) 7-Year RFS\n") + 
   annotate("text", x = 18.2, y = 330, label = "p value", 
-           size = 5, fontface = 'bold', family = 'Calibri')
+           size = 5, fontface = 'bold', family = my_font)
 
 efig7C_gg
 
@@ -4712,14 +4720,14 @@ pval <- grobTree(textGrob(paste0('VI predictor ',
                                  '(AUROC = ', auc, ')',sep=''),
                           x=0.7,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob("p = ", 
                           x = 0.65, y = 0.15, 
-                          gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+                          gp = gpar(fontsize = 17, fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(p_val))),
                           x=0.8, y=0.15,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 fig4D_gg <- pROC::ggroc(rocobj, colour = '#FF0054', size = 1, alpha = 1) +
   theme_classic() +
@@ -4731,7 +4739,7 @@ fig4D_gg <- pROC::ggroc(rocobj, colour = '#FF0054', size = 1, alpha = 1) +
         axis.title.y = element_text(size=20),
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, aes(x = x, ymin = lower, ymax = upper), 
@@ -4802,14 +4810,14 @@ pval <- grobTree(textGrob(paste0('VI predictor ',
                                  '(AUROC = ', auc, ')',sep=''),
                           x=0.7,  y=0.25, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob("p = ", 
                           x = 0.65, y = 0.15, 
-                          gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+                          gp = gpar(fontsize = 17, fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(p_val))),
                           x=0.8, y=0.15,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 fig4E_gg <- pROC::ggroc(rocobj, colour = '#FF0054', size = 1, alpha = 1) +
   theme_classic() +
@@ -4821,7 +4829,7 @@ fig4E_gg <- pROC::ggroc(rocobj, colour = '#FF0054', size = 1, alpha = 1) +
         axis.title.y = element_text(size=20),
         axis.text.x = element_text(size=20),
         axis.text.y = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   geom_abline(slope=1, intercept = 1, linetype = "dashed", 
               alpha=0.7, color = "grey") + 
   geom_ribbon(data = dat.ci, aes(x = x, ymin = lower, ymax = upper), 
@@ -4898,13 +4906,13 @@ efig7D_1_gg <- ggplot(data = efig7D_1, aes(x = LMPVI, y = VI_predictor)) +
     legend.position="none", 
     axis.text=element_text(size=20),
     legend.title = element_text(),
-    text = element_text(family = 'Calibri')) +
+    text = element_text(family = my_font)) +
   ylim(0,max(efig7D_1$VI_predictor)+0.4) +
   ggprism::add_pvalue(pval,label = 'p', step.increase = 0.1,
-             family = 'Calibri', label.size = 6, parse = TRUE)
+             family = my_font, label.size = 6, parse = TRUE)
 
 
-efig7D_1_gg$layers[[4]]$aes_params$family <- "Calibri"
+efig7D_1_gg$layers[[4]]$aes_params$family <- my_font
 
 efig7D_1_gg
 
@@ -4983,12 +4991,12 @@ efig7D_2_gg <- ggplot(data = efig7D_2, aes(x = WHO, y = VI_predictor)) +
     legend.position="none", 
     axis.text=element_text(size=20),
     legend.title = element_text(),
-    text = element_text(family = 'Calibri')) +  
+    text = element_text(family = my_font)) +  
   ylim(0,max(efig7D_2$VI_predictor)+0.4) +
   ggprism::add_pvalue(pval,label = 'p', step.increase = 0.05,
-             family = 'Calibri', label.size = 6, parse = TRUE)
+             family = my_font, label.size = 6, parse = TRUE)
 
-efig7D_2_gg$layers[[4]]$aes_params$family <- "Calibri"
+efig7D_2_gg$layers[[4]]$aes_params$family <- my_font
 
 efig7D_2_gg
 
@@ -5387,14 +5395,14 @@ fig5C_gg <- ggplot(data = fig5C, aes(x = `1`, y = `2`)) +
     legend.position="bottom", 
     axis.text=element_text(size=20),
     legend.title = element_text(size=20),
-    text = element_text(family = 'Calibri')) +
+    text = element_text(family = my_font)) +
   geom_smooth(method = "lm", se = TRUE, formula = y ~ x, color = "#FF0054") + 
   stat_cor(method="spearman",
            aes(label = paste(after_stat(r.label),
                              sub("e","%.% 10^",
                                  after_stat(p.label)), 
                              sep = "~`,`~")), 
-           size = 6, family = 'Calibri') 
+           size = 6, family = my_font) 
 
 fig5C_gg
 
@@ -5511,12 +5519,12 @@ writeData(source_data, sheet = 'Figure 5D',
 
 pval <- grobTree(textGrob("p =", 
                           x = 0.53, y = 0.95, hjust=0,
-                          gp = gpar(fontsize = 17, fontfamily = 'Calibri')),
+                          gp = gpar(fontsize = 17, fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(round(gsea_region_correlation$p.adjust, 
                                                           digits = 8)))),
                           x=0.6, y=0.95, hjust=0,
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 fig5D_gg <- ggplot(fig5D, aes(x=Rank, y=cor, group=1)) + 
   geom_line(linetype = 'solid', linewidth = 2) +
@@ -5540,7 +5548,7 @@ fig5D_gg <- ggplot(fig5D, aes(x=Rank, y=cor, group=1)) +
         legend.title = element_text(size=20),
         legend.key.size = unit(0.6, "cm"),
         legend.text = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   scale_x_continuous(breaks = c(4000,8000,12000), labels = c(4000,8000,12000)) +
   scale_y_continuous(breaks = c(0,0.5,1,1.2,1.62), labels = c(0,0.5,1,0,1)) +
   geom_hline(yintercept = 1.2, linetype = "dashed") +
@@ -5648,10 +5656,10 @@ fig5E_gg <- ggplot(data = fig5E, aes(x = Tumor_heterogeneity, y = Diff)) +
         axis.text.y = element_text(size=20),
         legend.position="none", 
         axis.text=element_text(size=12),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   ylim(0,max(fig5E$Diff)+0.05) +
   ggprism::add_pvalue(pval, step.increase = 0.1,
-                      family = 'Calibri', label.size = 6, parse = TRUE)
+                      family = my_font, label.size = 6, parse = TRUE)
 
 fig5E_gg
 
@@ -5760,9 +5768,9 @@ efig7E_gg <- ggplot(data = efig7E, aes(x = LVI_per_patient, y = VI_predictor,
         axis.text.y = element_text(size=20),
         legend.position="none", 
         axis.text=element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   stat_compare_means(aes(group=LVI_per_patient, label = 'p.format'),
-                     family = 'Calibri',
+                     family = my_font,
                      comparisons = NULL,
                      method = "wilcox.test",
                      label.x = 1.3,
@@ -5827,9 +5835,9 @@ efig7F_gg <- ggplot(data = efig7F, aes(x = ctDNA, y = VI_predictor, fill = ctDNA
         axis.text.y = element_text(size=16),
         legend.position="none", 
         axis.text=element_text(size=12),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   stat_compare_means(aes(group=ctDNA, label = 'p.format'),
-                     family = 'Calibri',
+                     family = my_font,
                      comparisons = NULL,
                      method = "wilcox.test",
                      label.x = 1.3,
@@ -6002,17 +6010,17 @@ efig7G_gg <- ggplot(efig7G, aes(x = Predictor, y = HR)) +
     axis.text.y       = element_text(size = 15),
     axis.title.x      = element_text(size = 20),
     axis.title.y      = element_text(size = 20),
-    text              = element_text(family = 'Calibri')
+    text              = element_text(family = my_font)
   ) +
   scale_y_continuous(trans = "log", expand = c(0,-1), breaks = c(0.05,2,8,32), 
                      limits = c(0.05, 1200)) + 
   scale_x_discrete(limits=c(rev(as.character(efig7G$Predictor)),' ')) + 
   xlab("Predictor\n") + ylab("\nHazard Ratio (95% CI)") + 
   geom_text(aes(x=Predictor, y=hr_max + 100, label=P), 
-            size=5, family = 'Calibri', parse = TRUE) + 
+            size=5, family = my_font, parse = TRUE) + 
   ggtitle("TRACERx stage I/II LUAD (n=137) 5-Year RFS\n") + 
   annotate("text", x = 5, y = 110, label = "p value", 
-           size = 5, fontface = 'bold', family = 'Calibri')
+           size = 5, fontface = 'bold', family = my_font)
 
 efig7G_gg
 
@@ -6118,17 +6126,17 @@ efig7H_gg <- ggplot(efig7H, aes(x = Predictor, y = HR)) +
     axis.text.y       = element_text(size = 15),
     axis.title.x      = element_text(size = 20),
     axis.title.y      = element_text(size = 20),
-    text              = element_text(family = 'Calibri')
+    text              = element_text(family = my_font)
   ) +
   scale_y_continuous(trans = "log", expand = c(0,-1), breaks = c(0.05,2,8,32), 
                      limits = c(0.05, 1200)) + 
   scale_x_discrete(limits=c(rev(as.character(efig7H$Predictor)),' ')) + 
   xlab("Predictor\n") + ylab("\nHazard Ratio (95% CI)") + 
   geom_text(aes(x=Predictor, y=hr_max + 100, label=P), 
-            size=5, family = 'Calibri', parse = TRUE) + 
+            size=5, family = my_font, parse = TRUE) + 
   ggtitle("TRACERx stage I LUAD (n=82) 5-Year RFS\n") + 
   annotate("text", x = 6, y = 110, label = "p value", 
-           size = 5, fontface = 'bold', family = 'Calibri')
+           size = 5, fontface = 'bold', family = my_font)
 
 efig7H_gg
 
@@ -6559,27 +6567,27 @@ fig4F <- list('Uppsala' = uppsala_cox,
 pval <- grobTree(textGrob(round(summary(uppsala_cox)$coefficients[,5],3),
                           x=0.85,  y=0.1, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob(round(summary(TCGA_cox)$coefficients[,5],3),
                           x=0.85,  y=0.26, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob(round(summary(TRACERx_cox)$coefficients[,5],3),
                           x=0.85,  y=0.42, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob(round(summary(validation_cox_VI_neg)$coefficients[,5],3),
                           x=0.85,  y=0.58, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob(round(summary(validation_cox)$coefficients[,5],3),
                           x=0.85,  y=0.74, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')),
+                                  fontfamily = my_font)),
                  textGrob(eval(bquote(scientific_10(round(summary(discovery_cox)$coefficients[,5],7)))),
                           x=0.85,  y=0.91, 
                           gp=gpar(fontsize=17, 
-                                  fontfamily = 'Calibri')))
+                                  fontfamily = my_font)))
 
 fig4F_gg <- modelplot(fig4F, exponentiate = TRUE,
                       size = 1.5, linewidth = 1.5,
@@ -6603,7 +6611,7 @@ fig4F_gg <- modelplot(fig4F, exponentiate = TRUE,
         legend.key.size = unit(0.6, "cm"),
         legend.text = element_text(size=22),
         legend.position = 'none',
-        text = element_text(family = 'Calibri'),
+        text = element_text(family = my_font),
         plot.margin = margin(1,1,1.5,1.5, "cm")) +
   scale_x_continuous(breaks=c(0,1,2,3,4,5,6),
                      limits=c(0,9)) +
@@ -6706,7 +6714,7 @@ fig4G_gg <- ggplot(fig4G, aes(x=FDR, y=reorder(`Pathology features`, FDR), fill 
         legend.title = element_blank(),
         legend.key.size = unit(0.6, "cm"),
         legend.text = element_text(size=20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   scale_x_continuous(breaks = -1:2, labels = c(1,0,1,2))
 
 fig4G_gg
@@ -6838,7 +6846,7 @@ fig4H_gg <- ggplot(fig4H, aes(x = reorder(Histology, AUCs), y = AUCs)) +
         axis.text.y = element_text(size = 20),
         legend.position = "top", 
         axis.text = element_text(size = 20),
-        text = element_text(family = 'Calibri'))
+        text = element_text(family = my_font))
 
 fig4H_gg
 
@@ -6954,7 +6962,7 @@ fig4I_gg <- ggplot(fig4I, aes(x = reorder(Invasion, AUCs), y = AUCs)) +
         axis.text.y = element_text(size = 20),
         legend.position = "top", 
         axis.text = element_text(size = 20),
-        text = element_text(family = 'Calibri')) +
+        text = element_text(family = my_font)) +
   scale_y_continuous(limits = c(0, 1))
 
 fig4I_gg
