@@ -4266,7 +4266,7 @@ aml_final@leader@model$cross_validation_metrics_summary
 
 # to ensure absolute reproducibility, load exact model trained
 
-aml_final_leader <- h2o.loadModel(here('data','GLM_1_AutoML_1_20230802_104952'))
+aml_final_leader <- h2o.import_mojo(here('data','GLM_1_AutoML_1_20230802_104952.zip'))
 
 pred_train <- h2o.predict(aml_final_leader, train_final)  
 
@@ -4674,7 +4674,7 @@ y <- "response"
 
 x <- setdiff(names(test_final), y)
 
-aml_final_leader <- h2o.loadModel(here('data','GLM_1_AutoML_1_20230802_104952'))
+aml_final_leader <- h2o.import_mojo(here('data','GLM_1_AutoML_1_20230802_104952.zip'))
 
 pred_test <- h2o.predict(aml_final_leader, test_final)  
 
