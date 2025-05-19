@@ -18,7 +18,8 @@
     export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include -I/opt/homebrew/opt/hdf5/include"
 #### Step 1: clone this repository to a local folder
 #### Step 2: use reviewer access token to download GSE273377_exp_count.txt.gz file from subseries GSE273377 within superseries GSE273528, unzip and place in Steiner_NatComm/data
-#### Step 3: download GSE273378_RAW.tar	from subseries GSE273378 within GSE273528, unzip and place GSE273378_RAW folder in Steiner_NatComm/data
+#### Step 3: download GSE273378_RAW.tar	from subseries GSE273378 within GSE273528, unzip and place GSE273378_RAW folder in /data
+#### Step 4: download TRACERx data from https://doi.org/10.5281/zenodo.7683605 and https://doi.org/10.5281/zenodo.76033862 and place in /data
 #### Step 4: This project uses renv for package management; do renv::restore() to reproduce exactly
 #### Step 5: run Steiner_NatComm_bulkRNAseq_analysis.R
 #### Step 6: run Steiner_NatComm_bulkRNAseq_biopsies_analysis.R (pending GEO data submission)

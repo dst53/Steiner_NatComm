@@ -5309,7 +5309,7 @@ y <- "response"
 
 x <- setdiff(names(test_TRACERx), y)
 
-aml_final_leader <- h2o.loadModel(here('data','GLM_1_AutoML_1_20230802_104952'))
+aml_final_leader <- h2o.import_mojo(here('data','GLM_1_AutoML_1_20230802_104952.zip'))
 
 pred_test <- h2o.predict(aml_final_leader, test_TRACERx)  
 
@@ -6324,7 +6324,7 @@ x <- setdiff(names(test_TCGA), y)
 
 # For binary classification, response should be a factor
 
-aml_final_leader <- h2o.loadModel(here('data','GLM_1_AutoML_1_20230802_104952'))
+aml_final_leader <- h2o.import_mojo(here('data','GLM_1_AutoML_1_20230802_104952.zip'))
 
 pred_test <- h2o.predict(aml_final_leader, test_TCGA)  
 
@@ -6504,7 +6504,7 @@ y <- "response"
 
 x <- setdiff(names(test_uppsala), y)
 
-aml_final_leader <- h2o.loadModel(here('data','GLM_1_AutoML_1_20230802_104952'))
+aml_final_leader <- h2o.import_mojo(here('data','GLM_1_AutoML_1_20230802_104952.zip'))
 
 pred_test <- h2o.predict(aml_final_leader, test_uppsala)  
 
