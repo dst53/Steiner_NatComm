@@ -5070,7 +5070,33 @@ h2o.removeAll(timeout_secs = 0, retained_elements = c())
 ##############
 
 # TRACERx 421 cohort
-# originally downloaded from https://doi.org/10.5281/zenodo.7683605 and https://doi.org/10.5281/zenodo.76033862
+# clinical metadata downloaded from https://doi.org/10.5281/zenodo.7683605
+# https://doi.org/10.5281/zenodo.76033862
+# Tumor evolutionary metrics downloaded from https://zenodo.org/records/7649257
+# RNA-seq data downloaded from https://zenodo.org/record/10932811
+# STAS, necrosis, ctDNA data downloaded from https://doi.org/10.1038/s41591-023-02230-w supplementary file
+
+urls <- list(
+  patient = "https://zenodo.org/record/7683605/files/20221109_TRACERx421_all_patient_df.rds?download=1",
+  tumour  = "https://zenodo.org/record/7683605/files/20221109_TRACERx421_all_tumour_df.rds?download=1",
+  region = "https://zenodo.org/record/7683605/files/2022-10-14_clinicohistopathological_data.fst?download=1"
+)
+
+for (nm in names(urls)) {
+  fname <- sub("\\?.*$", "", basename(urls[[nm]]))
+  dest  <- here("data", fname)
+  
+  if (!file.exists(dest)) {
+    message("Downloading: ", fname)
+    download.file(
+      urls[[nm]],
+      dest,
+      mode   = "wb",
+      method = "curl",
+      extra  = "-L"
+    )
+  }
+}
 
 TRACERx_all_patient <- readRDS(here('data','20221109_TRACERx421_all_patient_df.rds'))
 
@@ -5082,8 +5108,33 @@ dim(TRACERx_all_tumor) # 432 tumors
 
 # TRACERx tumor evolutionary metrics
 
-TRACERx_tumor_evo_metrics <- read.table(here('data','20221110_TRACERx421_evolutionary_metrics.tsv'),
-                                        sep ='\t', header = TRUE)
+zip_url  <- "https://zenodo.org/record/7649257/files/metsFigures.zip?download=1"
+zip_dest <- here("data","metsFigures.zip")
+if (!file.exists(zip_dest)) {
+  download.file(zip_url, zip_dest,
+                mode   = "wb",
+                method = "curl",
+                extra  = "-L")
+}
+
+
+zip_contents <- unzip(zip_dest, list = TRUE)
+metrics_file <- grep(
+  "20221110_TRACERx421_evolutionary_metrics\\.tsv$",
+  zip_contents$Name,
+  value = TRUE
+)
+metrics_file
+
+unzip(
+  zip_dest,
+  files     = metrics_file,
+  exdir     = here("data"),
+  overwrite = TRUE
+)
+
+metrics_path <- here("data", metrics_file)
+TRACERx_tumor_evo_metrics <- read.delim(metrics_path, sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
 dim(TRACERx_tumor_evo_metrics) # 432 x 172
 
@@ -5101,22 +5152,37 @@ TRACERx_all_regions <- read_fst(here('data','2022-10-14_clinicohistopathological
 
 dim(TRACERx_all_regions) # 1515 x 10
 
-# TRACERx I-TED intratumor heterogeneity metric
-
-TRACERx_ITED <- read_fst(here('data','2022-10-21_ited_primaries.fst'))
-
-dim(TRACERx_ITED) # 813 per region
-
-TRACERx_ITED <- TRACERx_ITED %>%
-  dplyr::rename(sample_name_cruk = region)
-
-TRACERx_all_regions <- TRACERx_all_regions %>%
-  left_join(TRACERx_ITED, by = 'sample_name_cruk', multiple = 'all')
-
-dim(TRACERx_all_regions)
-
-
 # TRACERx 421 cohort RNA-seq data
+
+zip_url  <- "https://zenodo.org/record/10932811/files/transcriptomics_scripts_data_20230330.zip?download=1"
+zip_dest <- here("data", "transcriptomics_scripts_data_20230330.zip")
+if (!file.exists(zip_dest)) {
+  download.file(
+    zip_url,
+    zip_dest,
+    mode   = "wb",
+    method = "curl",
+    extra  = "-L"
+  )
+}
+
+zip_contents <- unzip(zip_dest, list = TRUE)
+fst_path <- grep(
+  "2022-10-17_rsem_counts_mat\\.fst$",
+  zip_contents$Name,
+  value = TRUE
+)
+
+unzip(
+  zip_dest,
+  files     = fst_path,
+  exdir     = here("data"),
+  overwrite = TRUE
+)
+
+old_loc <- file.path(here("data"), fst_path)
+new_loc <- file.path(here("data"), basename(fst_path))
+if (!file.exists(new_loc)) file.rename(old_loc, new_loc)
 
 TRACERx_rsem_counts <- read_fst(here('data','2022-10-17_rsem_counts_mat.fst'))
 
@@ -5125,16 +5191,29 @@ dim(TRACERx_rsem_counts) # 28073 x 1052
 
 # TRACERx additional data (e.g. ctDNA) about LUADs
 
+url_xlsx <- "https://static-content.springer.com/esm/art%3A10.1038%2Fs41591-023-02230-w/MediaObjects/41591_2023_2230_MOESM1_ESM.xlsx"
+dest_xlsx <- here("data", "TRACERx_LUAD_path_data_STAS_necrosis_ctDNA.xlsx")
+
+if (!file.exists(dest_xlsx)) {
+  download.file(
+    url      = url_xlsx,
+    destfile = dest_xlsx,
+    mode     = "wb",
+    method   = "curl",
+    extra    = "-L"
+  )
+}
+
 TRACERx_LUAD_patient <- read_excel(here('data','TRACERx_LUAD_path_data_STAS_necrosis_ctDNA.xlsx'),
-                                   sheet = 3)
+                                   sheet = 3, skip  = 2)
 
 dim(TRACERx_LUAD_patient) # 242 LUAD patients
 
 TRACERx_LUAD_patient <- TRACERx_LUAD_patient %>%
-  dplyr::rename(tumour_id_muttable_cruk = Patient_ID)
+  dplyr::rename(tumour_id_muttable_cruk = `Patient ID`)
 
 TRACERx_LUAD_tumor <- read_excel(here('data','TRACERx_LUAD_path_data_STAS_necrosis_ctDNA.xlsx'),
-                                 sheet = 4)
+                                 sheet = 4, skip = 1)
 
 dim(TRACERx_LUAD_tumor) # 248 LUAD tumors
 
@@ -5142,12 +5221,12 @@ TRACERx_LUAD_tumor <- TRACERx_LUAD_tumor %>%
   dplyr::rename(tumour_id_muttable_cruk = `Tumour ID`)
 
 TRACERx_LUAD_regions <- read_excel(here('data','TRACERx_LUAD_path_data_STAS_necrosis_ctDNA.xlsx'),
-                                   sheet = 5)
+                                   sheet = 5, skip = 1)
 
 dim(TRACERx_LUAD_regions) # 805 LUAD regions
 
 TRACERx_LUAD_regions <- TRACERx_LUAD_regions %>%
-  dplyr::rename(tumour_id_muttable_cruk = Tumour_ID)
+  dplyr::rename(tumour_id_muttable_cruk = `Tumour ID`)
 
 # combine patient, tumor, region metadata
 
@@ -5164,7 +5243,7 @@ dim(TRACERx_all_pheno) # 1515 x 78
 TRACERx_LUAD_pheno <- TRACERx_LUAD_regions %>%
   left_join(TRACERx_LUAD_tumor, by = 'tumour_id_muttable_cruk', multiple = 'all') %>%
   left_join(TRACERx_LUAD_patient, by = 'tumour_id_muttable_cruk', multiple = 'all') %>%
-  dplyr::rename(sample_name_cruk = Sample_ID)
+  dplyr::rename(sample_name_cruk = `Sample ID`)
 
 dim(TRACERx_LUAD_pheno) # 805 x 40
 
@@ -5454,9 +5533,21 @@ data_long <- data_long %>%
 
 gene_data_long <- data_long[, -c(1:3)]
 
-gene_correlations <- diag(cor(gene_data_long[data_long$region_number == 1, ], 
-                              gene_data_long[data_long$region_number == 2, ],
-                              method = 'spearman'))
+i1 <- which(data_long$region_number == 1)
+i2 <- which(data_long$region_number == 2)
+M1 <- gene_data_long[i1, ]
+M2 <- gene_data_long[i2, ]
+
+gene_correlations <- vapply(
+  seq_len(ncol(M1)),
+  function(j) cor(M1[,j], M2[,j], method = "spearman"),
+  numeric(1)
+)
+
+gene_correlations <- setNames(
+  gene_correlations,
+  colnames(gene_data_long)
+)
 
 gene_correlations <- na.omit(gene_correlations)
 
