@@ -25,5 +25,6 @@
 #### Step 7: Install miniconda/4.11.0 and follow the remianing cytospace installation instructions. To install v1.0.6 specifically, clone cytospace v1.0.6 into Steiner_NatComm repository folder: ```git clone --branch v1.0.6 --single-branch https://github.com/digitalcytometry/cytospace.git```. 
 #### Step 8: run cytospace.sh
 #### Step 9: run Steiner_NatComm_stRNAseq_analysis.R
-#### Step 10: run Steiner_NatComm_bulkRNAseq_biopsies_analysis.R (pending GEO data submission)
+#### Step 10: download GSE298714_biopsies_exp_count.txt.gz file from subseries GSE298714 within superseries GSE273528, unzip and place in Steiner_NatComm/data
+#### Step 11: run Steiner_NatComm_bulkRNAseq_biopsies_analysis.R (pending GEO data submission)
 
